@@ -18,21 +18,16 @@
 # Created with PyCharm.
 # User: yanghua
 # Date: 4/25/13
-# Time: 11:10 AM
+# Time: 12:45 PM
 
-import analysis
-import crawler
-import dao
-import search
+from setuptools import setup
 
-__all__ = \
-[
-    'analysis',
-    'crawler',
-    'dao',
-    'search'
-]
-
-print('hello world! ')
-
-
+setup(
+    name="vino_mamba",
+    version="0.0.1",
+    py_modules="",
+    author="yanghua",
+    author_email="yanghua1127@gmail.com",
+    url="https:github.com/yanghua/vino_mamba",
+    description="it's a web crawler"
+)

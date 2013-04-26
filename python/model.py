@@ -17,22 +17,9 @@
 # ---
 # Created with PyCharm.
 # User: yanghua
-# Date: 4/25/13
-# Time: 11:10 AM
+# Date: 4/26/13
+# Time: 4:46 PM
 
-import analysis
-import crawler
-import dao
-import search
+class CSEResult:
 
-__all__ = \
-[
-    'analysis',
-    'crawler',
-    'dao',
-    'search'
-]
-
-print('hello world! ')
-
-
+    pass
