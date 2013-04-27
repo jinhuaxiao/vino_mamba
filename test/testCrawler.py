@@ -20,3 +20,16 @@
 # Date: 4/25/13
 # Time: 11:57 AM
 
+import unittest
+
+class testCrawler(unittest.TestCase):
+
+    def setUp(self):
+        print("setUp")
+
+    def tearDown(self):
+        print("tearDown")
+
+    def testHelloworld(self):
+        print("helloworld")
+
