@@ -52,9 +52,9 @@ sudo source bin/activate
 apply a google project in [google console] to get a API key
 
 [google console]:https://developers.google.com/api-client-library/python/reference/supported_apis
-create a app based on Google Custom Search at [here] to get a ID(**cx**). [must]
+create a app based on Google Custom Search at [here] to get a ID **cx**. [must]
 
-> It will request u fill the site or the domain that you want to search to create a custom search engine. If you just want to get the result from google, write google's domain name e.g.:www.google.com www.google.com/hk ...
+> It will request u fill the site or the domain that you want to search to create a custom search engine. If you just want to get the result from google, write google's domain name e.g.:#www.google.com www.google.com/hk …
 
 [root domain]:https://zh.wikipedia.org/wiki/%E6%A0%B9%E5%9F%9F%E5%90%8D%E6%9C%8D%E5%8B%99%E5%99%A8
 [here]:https://www.google.com/cse/manage/create
