@@ -21,5 +21,15 @@
 # Time: 4:46 PM
 
 class CSEResult:
+    """
+        desc:   the model of the search result
+    """
 
-    pass
+    def __init__(self):
+        self.id = ''
+        self.desc = ''
+        self.url = ''
+
+
+
+pass
