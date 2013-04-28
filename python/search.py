@@ -71,7 +71,7 @@ def getResponse():
 
 
 #test:
-print(generateRequestUrl(['yanghua', 'kobe', 'nba']))
+# print(generateRequestUrl(['yanghua', 'kobe', 'nba']))
 
 
 
