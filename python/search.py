@@ -22,56 +22,92 @@
 
 import sys
 import re
+import configUtility
+import json
+import urllib2
 
-GLOABL_APP_ARGS = dict(
-    API_KEY='AIzaSyDSAxrt1UMK_uLRGGlBJXiR6xYUxzwR1_w',
-    API_VERSION='v1',
-    SERVICE_NAME='customsearch',
-    SEARCH_ENGINE_ID='002302950730219782374:x2mqpz7mwog')
-
-API_URL_PATTERN = 'https://www.googleapis.com/{service_name}/\
-{api_version}?key={api_key}&cx={search_engine_id}&q={keywords}'
-
-API_ARGS_REG_PATTERN = '\{[^\{\}]*\}'
+API_ARGS_REG_PATTERN = "\{[^\{\}]*\}"
 
 
-def generateRequestUrl(keywordsList):
-    """
-        desc:   to generate request api url
-        args:   none
-        return: none
-    """
-    global API_URL_PATTERN
-    if keywordsList is None:
-        raise BaseException, "the keywords can not empty"
+class searchManager:
+    def __init__(self):
+        self.CSEResultList = []
+        self.requestUrl = ''
+        self.configManager = configUtility.ConfigManager()
+        pass
 
-    [replaceArgValWithConfigedKey(keyItem) for keyItem in GLOABL_APP_ARGS.iterkeys()]
+    def __generateRequestUrl(self):
+        """
+            desc:   to generate request api url
+            args:   none
+            return: none
+        """
+        self.requestUrl = self.configManager.getConfigVal('api_request', 'api_url_pattern')
+        matchedList = re.findall(API_ARGS_REG_PATTERN, self.requestUrl)
+        if not matchedList:
+            raise BaseException, 'the matchObj can not be none'
+        [self.__replaceArgValWithConfigedKey(item) for item in matchedList]
 
-    return API_URL_PATTERN.replace('{keywords}', '+'.join(keywordsList))
+    def __replaceArgValWithConfigedKey(self, matchedItem):
+        """
+            desc:   replace arg value with configed key
+            args:   matchedItem - matchedItem like {XXX}
+            return: none
+        """
+        config_key = matchedItem[1:-1]
+        self.requestUrl = self.requestUrl.replace(matchedItem, self.configManager.getConfigVal('api_request', config_key))
+
+    def __getResponseData(self):
+        """
+            desc:   get http response parser
+            args:   none
+            return: the response data
+        """
+        self.__generateRequestUrl()
+        # header = {'User-Agent': 'mozilla/5.0 (windows; U; windows NT 5.1; zh-cn)'}
+        responseData=None
+        try:
+            req = urllib2.Request(self.requestUrl, None)
+            responseData = urllib2.urlopen(req).read()
+        except urllib2.HTTPError, e:
+            print(e.code)
+            print(e.message)
+            print(e.headers)
+            print(e.fp.read())
+
+        return responseData
 
 
-def replaceArgValWithConfigedKey(key):
-    '''
-        desc:   replace arg value with configed key
-        args:   none
-        return: none
-    '''
-    global API_URL_PATTERN
-    pattern = "{%s}" % key.lower()
-    API_URL_PATTERN = API_URL_PATTERN.replace(pattern, GLOABL_APP_ARGS[key])
+    def getParsedJSON(self):
+        """
+            desc:
+
+        """
+        responseData=self.__getResponseData()
+        if not responseData:
+            raise BaseException, 'the http response data can not be none'
+
+        print(responseData)
+        resultDic=json.loads(responseData)
+        if not resultDic:
+            raise BaseException, 'the json prase error!'
+
+        pass
+
+    def loadModel(self):
+        """
+
+        """
+        pass
+
+    def search(self):
+        """
+
+        """
+        self.getParsedJSON()
 
 
-def getResponse():
-    '''
-        desc:   get http response
-        args:   none
-        return: none
-    '''
-    pass
 
-
-#test:
-# print(generateRequestUrl(['yanghua', 'kobe', 'nba']))
 
 
 
