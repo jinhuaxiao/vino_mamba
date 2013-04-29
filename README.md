@@ -69,18 +69,56 @@ and the service I used is [Google custom-search] , you should be familiar with t
 [Google custom-search]:https://developers.google.com/custom-search/v1/using_rest
 [python-api]:https://google-api-client-libraries.appspot.com/documentation/customsearch/v1/python/latest/
 
+
+https://developers.google.com/custom-search/docs/api
+
 ##Modules
 
 ###search
+do search via google customs search engine(***cse***) and boxing the json data into model
 
 ###model
+defines the models that mapping the rdbms table's fields
 
 ###dao
 
+-----------
+
+                               table structures
+
+-----------
+
+(1) tb_cse_result
+
+field name   | field type    | remark
+------------ | ------------- | ------------
+cse_id       | big int       | item identifier (pk)
+title        | varchar(100)  | title
+link         | varchar(255)  | the cse item's link
+cacheId      | varchar(50)   | 
+snippet      | varchar(255)  | the result snippet
+generateTime | date time     | insert time
+keywords     | varchar(300)  | spliced by ','
+
+(2) tb_cse_result_history
+
+field name   | field type    | remark
+------------ | ------------- | ------------
+hy_cse_id       | big int       | item identifier (pk)
+hy_title        | varchar(100)  | title
+hy_link         | varchar(255)  | the cse item's link
+hy_cacheId      | varchar(50)   | 
+hy_snippet      | varchar(255)  | the result snippet
+hy_generateTime | date time     | insert time
+hy_keywords     | varchar(300)  | spliced by ','
+
+
 ###crawler
+use the links(got from Google cse) to crawler bases on some strategy and some keywords 
 
 ###analysis
+based on some strategy and keywords .the analysis module will get more effective result and give the matching degree with the result that you want.
 
 ###report
-
+make a report by the searched and analysised result(word/email/...)
 
