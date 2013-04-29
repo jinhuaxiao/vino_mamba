@@ -14,17 +14,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# ---
+# -------------------------------------------------------------------
 # Created with PyCharm.
 # User: yanghua
 # Date: 4/25/13
 # Time: 11:53 AM
 
-import sys
 import re
 import configUtility
 import json
 import urllib2
+import model
 
 API_ARGS_REG_PATTERN = "\{[^\{\}]*\}"
 
@@ -33,7 +33,7 @@ class searchManager:
     def __init__(self):
         self.CSEResultList = []
         self.requestUrl = ''
-        self.configManager = configUtility.ConfigManager()
+        self.configManager = configUtility.configManager()
         pass
 
     def __generateRequestUrl(self):
@@ -55,7 +55,8 @@ class searchManager:
             return: none
         """
         config_key = matchedItem[1:-1]
-        self.requestUrl = self.requestUrl.replace(matchedItem, self.configManager.getConfigVal('api_request', config_key))
+        self.requestUrl = self.requestUrl.replace(matchedItem,
+                                                  self.configManager.getConfigVal('api_request', config_key))
 
     def __getResponseData(self):
         """
@@ -64,10 +65,10 @@ class searchManager:
             return: the response data
         """
         self.__generateRequestUrl()
-        # header = {'User-Agent': 'mozilla/5.0 (windows; U; windows NT 5.1; zh-cn)'}
-        responseData=None
+        header = {'User-Agent': 'mozilla/5.0 (windows; U; windows NT 5.1; zh-cn)'}
+        responseData = None
         try:
-            req = urllib2.Request(self.requestUrl, None)
+            req = urllib2.Request(self.requestUrl, headers=header)
             responseData = urllib2.urlopen(req).read()
         except urllib2.HTTPError, e:
             print(e.code)
@@ -80,31 +81,54 @@ class searchManager:
 
     def getParsedJSON(self):
         """
-            desc:
-
+            desc:   get parsed json object
+            args:   None
+            return: json object
         """
-        responseData=self.__getResponseData()
+        responseData = self.__getResponseData()
         if not responseData:
             raise BaseException, 'the http response data can not be none'
 
         print(responseData)
-        resultDic=json.loads(responseData)
+        resultDic = json.loads(responseData)
         if not resultDic:
             raise BaseException, 'the json prase error!'
+        return resultDic
 
-        pass
-
-    def loadModel(self):
+    def loadModel(self, jsonObj):
         """
-
+            desc:   load model from json obj
+            args:   jsonObj - the json dic
+            return: List of models
         """
-        pass
+        if not jsonObj and not jsonObj['items']:
+            raise BaseException, 'the jsonObj can not be none'
 
-    def search(self):
-        """
+        keyworlds = self.configManager.getConfigVal('api_request','keywords')
 
+        result = []
+        for item in jsonObj['items']:
+            if not item:
+                continue
+            entity = model.CSEResult()
+            entity.title = item['title']
+            entity.snippet = item['snippet']
+            entity.cachedId = item['cacheId']
+            entity.link = item['link']
+            entity.keywords = keyworlds
+            result.append(entity)
+
+        return result
+
+    def doSearch(self):
         """
-        self.getParsedJSON()
+            desc:   the public-main method available to the outter
+            args:   None
+            return: boxed model list
+        """
+        resultDic = self.getParsedJSON()
+        return self.loadModel(resultDic)
+
 
 
 
