@@ -27,9 +27,11 @@ class CSEResult:
 
     def __init__(self):
         self.id = ''
-        self.desc = ''
-        self.url = ''
-
+        self.title = ''
+        self.snippet = ''                   #snippet
+        self.link = ''                      #formattedUrl
+        self.cacheId = ''                   #joined with cache-base url can find the google cache
+        self.keywords = ''                  #keywords splited by ','
 
 
 pass
