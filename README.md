@@ -11,7 +11,7 @@ Giving several key words then it receives some available results via Google Sear
 > a available mysql server<br />
 > Pycharm (optional)
 
-**step one**  install [virtualenv] 
+**step 1**  install [virtualenv] 
 
 [virtualenv]:http://www.virtualenv.org/en/latest/ 
 
@@ -40,14 +40,15 @@ sudo source bin/activate
 ```
 
 
-**step two** install these libraries listed below:
+**step 2** install these libraries listed below:
 
 * pymysql	: a library to access mysql
 * scrappy	: a very simple and powerful crawler writed by python
 * beautifulsoup4 : a nice html/xml parser 
+* reporta: a very outstanding PDF Generator and Operating Library
 
 
-**step three** use Google API (RESTful)
+**step 3** use Google API (RESTful)
 
 apply a google project in [google console] to get a API key
 
@@ -71,6 +72,15 @@ and the service I used is [Google custom-search] , you should be familiar with t
 
 
 https://developers.google.com/custom-search/docs/api
+
+
+**step 4** create db and tables
+
+run the sql script in root dir
+
+**step 5** configurate
+
+configurate the config-file in root dir
 
 ##Modules
 
@@ -120,5 +130,5 @@ use the links(got from Google cse) to crawler bases on some strategy and some ke
 based on some strategy and keywords .the analysis module will get more effective result and give the matching degree with the result that you want.
 
 ###report
-make a report by the searched and analysised result(word/email/...)
+make a report by the searched and analysised result(PDF/email/...)
 
