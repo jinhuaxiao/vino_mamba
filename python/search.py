@@ -25,6 +25,7 @@ import configUtility
 import json
 import urllib2
 import model
+from random import randint
 
 API_ARGS_REG_PATTERN = "\{[^\{\}]*\}"
 
@@ -54,9 +55,33 @@ class searchManager:
             args:   matchedItem - matchedItem like {XXX}
             return: none
         """
+        if not matchedItem or len(matchedItem) == 0:
+            raise BaseException, 'matchedItem can not be none'
         config_key = matchedItem[1:-1]
-        self.requestUrl = self.requestUrl.replace(matchedItem,
-                                                  self.configManager.getConfigVal('api_request', config_key))
+        if config_key != 'keywords':
+            self.requestUrl = self.requestUrl.replace(matchedItem,
+                                                      self.configManager.getConfigVal('api_request', config_key))
+        else:
+            #format keywords from a,b,c to a+b+c requied by google cse api
+            keywordsStr=self.configManager.getConfigVal('api_request', config_key)
+            if self.configManager.getConfigVal('api_request', 'keep_keywords_sequence').lower() != 'false':
+
+                keywordsFormattedToReqParam = keywordsStr.split(',').join('+')
+                self.requestUrl = self.requestUrl.replace(matchedItem, keywordsFormattedToReqParam)
+            else:                       #random sequence
+                keywordList = keywordsStr.split(',')
+                formattedKeywords = ''
+                keywordsFormatter = '%s+'
+                while (len(keywordList) != 0):
+                    #random index from 0 to len-1
+                    tmp_index = randint(0, len(keywordList) - 1)
+                    formattedKeywords = formattedKeywords+''+ keywordsFormatter % keywordList[tmp_index]
+                    #remove the used element from list
+                    keywordList.remove(keywordList[tmp_index])
+
+                formattedKeywords = formattedKeywords[0:-1]
+                self.requestUrl = self.requestUrl.replace(matchedItem, formattedKeywords)
+
 
     def __getResponseData(self):
         """
@@ -89,7 +114,6 @@ class searchManager:
         if not responseData:
             raise BaseException, 'the http response data can not be none'
 
-        print(responseData)
         resultDic = json.loads(responseData)
         if not resultDic:
             raise BaseException, 'the json prase error!'
@@ -104,7 +128,7 @@ class searchManager:
         if not jsonObj and not jsonObj['items']:
             raise BaseException, 'the jsonObj can not be none'
 
-        keyworlds = self.configManager.getConfigVal('api_request','keywords')
+        keyworlds = self.configManager.getConfigVal('api_request', 'keywords')
 
         result = []
         for item in jsonObj['items']:
