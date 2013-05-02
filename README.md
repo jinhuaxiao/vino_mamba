@@ -52,7 +52,7 @@ sudo source bin/activate
 
 apply a google project in [google console] to get a API key
 
-[google console]:https://developers.google.com/api-client-library/python/reference/supported_apis
+[google console]:https://code.google.com/apis/console/
 create a app based on Google Custom Search at [here] to get a ID **cx**. [must]
 
 > It will request u fill the site or the domain that you want to search to create a custom search engine. If you just want to get the result from google, write google's domain name e.g.:#www.google.com www.google.com/hk …
@@ -65,13 +65,10 @@ then quick start for google api via [their documents]
 
 [their documents]:https://developers.google.com/api-client-library/python/start/get_started#auth
 
-and the service I used is [Google custom-search] , you should be familiar with the document and it's [python-api].
+and the service I used is [Google custom-search] , you should be familiar with the document and it's [Using REST].
 
 [Google custom-search]:https://developers.google.com/custom-search/v1/using_rest
-[python-api]:https://google-api-client-libraries.appspot.com/documentation/customsearch/v1/python/latest/
-
-
-https://developers.google.com/custom-search/docs/api
+[Using REST]:https://developers.google.com/custom-search/v1/using_rest
 
 
 **step 4** create db and tables
@@ -132,3 +129,12 @@ based on some strategy and keywords .the analysis module will get more effective
 ###report
 make a report by the searched and analysised result(PDF/email/...)
 
+##Support
+
+//关键词随机组合<br />
+(1) random keywords search
+
+//支持深度优先搜索和广度优先搜索配置<br />
+(2) Depth First Search or Breadth First Search
+
+(3)
