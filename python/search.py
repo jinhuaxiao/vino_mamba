@@ -114,6 +114,7 @@ class searchManager:
         if not responseData:
             raise BaseException, 'the http response data can not be none'
 
+        print(responseData)
         resultDic = json.loads(responseData)
         if not resultDic:
             raise BaseException, 'the json prase error!'
@@ -137,7 +138,7 @@ class searchManager:
             entity = model.CSEResult()
             entity.title = item['title']
             entity.snippet = item['snippet']
-            entity.cachedId = item['cacheId']
+            entity.cacheId = item['cacheId']
             entity.link = item['link']
             entity.keywords = keyworlds
             result.append(entity)
