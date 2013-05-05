@@ -30,7 +30,7 @@ class CSEResult:
         self.title = ''
         self.snippet = ''                   #snippet
         self.link = ''                      #formattedUrl
-        self.cacheId = ''                   #joined with cache-base url can find the google cache
+        self.cacheId = None                   #joined with cache-base url can find the google cache
         self.keywords = ''                  #keywords splited by ','
 
 
