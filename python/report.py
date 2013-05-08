@@ -169,11 +169,12 @@ class pdfReporter:
 
         cachedLink = self.__generateCachedLink(cseResultItem.cacheId, cseResultItem.link)
         warppedCachedUrl = '<link href=\'%s\' color=\'blue\'><u>%s</u></link>' % (cachedLink, cachedLink)
+        strongedSnippet=self.__StrongKeywords(cseResultItem.snippet,cseResultItem.keywords)
 
         title = reportlabLibs.Paragraph(cseResultItem.title, reportlabLibs.styleN)
         link = reportlabLibs.Paragraph(warppedUrl, reportlabLibs.styleN)
         cachelink = reportlabLibs.Paragraph(warppedCachedUrl, reportlabLibs.styleN)
-        snippet = reportlabLibs.Paragraph(cseResultItem.snippet, reportlabLibs.styleN)
+        snippet = reportlabLibs.Paragraph(strongedSnippet, reportlabLibs.styleN)
         keywords = reportlabLibs.Paragraph(cseResultItem.keywords, reportlabLibs.styleN)
         matchdegree = reportlabLibs.Paragraph('70%', reportlabLibs.styleN)
 
@@ -188,7 +189,30 @@ class pdfReporter:
             ]
 
         return data
-        pass
+
+    def __StrongKeywords(self, originalStr, keywords):
+        """
+            desc:   package keywords with tag to Strong them
+            args:   originalStr - String
+                    keywords - keywords joined with ','
+            return: packaged content
+        """
+
+        if not originalStr:
+            raise BaseException, 'the arg:originalStr can not be none'
+
+        if not keywords or len(keywords) == 0:
+            raise BaseException, 'the arg:keywords can not be none or empty'
+
+        keywordsList = keywords.split(',')
+        originalStr=originalStr.lower()
+        for keyword in keywordsList:
+            newStr = '<font color=\'red\'>%s</font>' % keyword
+            originalStr = originalStr.replace(keyword, newStr)
+
+        result = originalStr
+
+        return result
 
     def generatePDF(self, cseResultList):
         """
