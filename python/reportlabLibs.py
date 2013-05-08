@@ -25,21 +25,27 @@ from reportlab.pdfgen import canvas
 #----------------------------------for chinse font and break line start--------------------
 import reportlab.rl_config
 from reportlab.lib.units import inch
+
 reportlab.rl_config.warnOnMissingFontGlyphs = 0
 import reportlab.pdfbase.pdfmetrics
 import reportlab.pdfbase.ttfonts
-reportlab.pdfbase.pdfmetrics.registerFont(reportlab.pdfbase.ttfonts.TTFont('song', '/Library/Fonts/Microsoft/SimSun.ttf'))
+
+reportlab.pdfbase.pdfmetrics.registerFont(
+    reportlab.pdfbase.ttfonts.TTFont('song', '/Library/Fonts/Microsoft/SimSun.ttf'))
 import reportlab.lib.fonts
+
 reportlab.lib.fonts.ps2tt = lambda psfn: ('song', 0, 0)
-reportlab.lib.fonts.tt2ps = lambda fn,b,i: 'song'
+reportlab.lib.fonts.tt2ps = lambda fn, b, i: 'song'
 
 ## for CJK Wrap
 import reportlab.platypus
+
+
 def wrap(self, availWidth, availHeight):
     # work out widths array for breaking
     self.width = availWidth
     leftIndent = self.style.leftIndent
-    first_line_width = availWidth - (leftIndent+self.style.firstLineIndent) - self.style.rightIndent
+    first_line_width = availWidth - (leftIndent + self.style.firstLineIndent) - self.style.rightIndent
     later_widths = availWidth - leftIndent - self.style.rightIndent
     try:
         self.blPara = self.breakLinesCJK([first_line_width, later_widths])
@@ -47,6 +53,7 @@ def wrap(self, availWidth, availHeight):
         self.blPara = self.breakLines([first_line_width, later_widths])
     self.height = len(self.blPara.lines) * self.style.leading
     return (self.width, self.height)
+
 
 reportlab.platypus.Paragraph.wrap = wrap
 #----------------------------------for chinse font and break line end----------------------
@@ -68,11 +75,13 @@ styleBH.alignment = TA_CENTER
 tb_height = 5
 tb_margin_v = 1
 tb_numPerPage = 4
-tb_firstItem_top = 6.6
+tb_firstItem_top = 7.6
+
 
 def coord(x, y, unit=1):
     x, y = x * unit, height - y * unit
     return x, y
+
 #----------------------------------for table end-------------------------------------------
 
 
