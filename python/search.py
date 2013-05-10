@@ -63,7 +63,7 @@ class searchManager:
                                                       self.configManager.getConfigVal('api_request', config_key))
         else:
             #format keywords from a,b,c to a+b+c requied by google cse api
-            keywordsStr=self.configManager.getConfigVal('api_request', config_key)
+            keywordsStr = self.configManager.getConfigVal('api_request', config_key)
             if self.configManager.getConfigVal('api_request', 'keep_keywords_sequence').lower() != 'false':
 
                 keywordsFormattedToReqParam = keywordsStr.split(',').join('+')
@@ -75,7 +75,7 @@ class searchManager:
                 while (len(keywordList) != 0):
                     #random index from 0 to len-1
                     tmp_index = randint(0, len(keywordList) - 1)
-                    formattedKeywords = formattedKeywords+''+ keywordsFormatter % keywordList[tmp_index]
+                    formattedKeywords = formattedKeywords + '' + keywordsFormatter % keywordList[tmp_index]
                     #remove the used element from list
                     keywordList.remove(keywordList[tmp_index])
 
@@ -151,8 +151,36 @@ class searchManager:
             args:   None
             return: boxed model list
         """
+
+        isDFS = self.configManager.getConfigVal('api_request', 'is_depth_first_search')
+
+        if isDFS:
+            self.__doDFSSearch()
+        else:
+            self.__doBFSSearch()
+
+    def __doDFSSearch(self):
+        """
+            desc:   dfs
+            args:   None
+            return: None
+        """
+        totalResults = 10
+
         resultDic = self.getParsedJSON()
         return self.loadModel(resultDic)
+
+        pass
+
+    def __doBFSSearch(self):
+        """
+            desc:   bfs
+            args:   None
+            return: None
+        """
+
+        pass
+
 
 
 
