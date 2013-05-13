@@ -22,8 +22,8 @@
 
 import unittest
 
-class testCrawler(unittest.TestCase):
 
+class testCrawler(unittest.TestCase):
     def setUp(self):
         print("setUp")
 
