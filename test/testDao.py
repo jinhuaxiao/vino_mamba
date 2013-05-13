@@ -20,3 +20,25 @@
 # Date: 4/25/13
 # Time: 11:57 AM
 
+import unittest
+import pymysql
+import python.dao
+
+
+class testDataAccessManager(unittest.TestCase):
+    """
+        desc:   test case - dataAccessManager
+    """
+
+    def setUp(self):
+        self.dam = python.dao.dataAccessManager()
+        pass
+
+    def test_connectToDB(self):
+        conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123456', db='vino_manba_db')
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM tb_cse_result')
+        pass
+
+    def tearDown(self):
+        pass
